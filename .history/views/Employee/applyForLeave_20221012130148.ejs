@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard | <%= title %>
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <style>
+        .sradio {
+            display: none;
+        }
+
+        .short #demo1,
+        .short #demo2,
+        .short #demo3,
+        .short #demo4 {
+            display: none;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #5bc0de;
+            border-color: #46b8da;
+            outline: none !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default no-margin">
+        <!-- Brand and toggle get grouped for better mobile display -->
+
+        <div class="navbar-logo col-lg-4 col-md-4">
+            <img src="../images/webLogo.png" style="width: 180px; height: auto;" />
+        </div>
+        <div class="navbar-header fixed-brand col-lg-4 col-md-4">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+                <span class="glyphicon glyphicon-th-large" style="margin-left:5px;" aria-hidden="true"></span>
+            </button>
+            <a class="navbar-brand" href="#"><i class="fa fa-a fa-4"></i>
+                <%= userName %>
+            </a>
+        </div><!-- navbar-header-->
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav col-lg-4 col-md-4">
+                <li class="active">
+                    <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"><span
+                            class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
+                </li>
+                <li class="navbar-brand">
+                    <form action="/logout" method="get">
+                        <button id="logout" type="submit" style="margin-top: -3px; outline: none;"
+                            class="btn btn-info"><i class="fa fa-user" aria-hidden="true"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div><!-- bs-example-navbar-collapse-1 -->
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+
+                <li>
+                    <a href="/employee/applied-leaves"><span class="fa-stack fa-lg pull-left"><i
+                                class="fa fa-dashboard fa-stack-1x "></i></span> View Leaves</a>
+                </li>
+                <li class="active">
+                    <a href="/employee/apply-for-leave"><span class="fa-stack fa-lg pull-left"><i
+                                class="fa fa-envelope-square fa-stack-1x "></i></span>Apply for Leave</a>
+                </li>
+                <li>
+                    <a href="/employee/view-profile"><span class="fa-stack fa-lg pull-left"><i
+                                class="fa fa-user fa-stack-1x "></i></span>View Profile</a>
+                </li>
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Application Details</h1>
+                        <div id="menu1" style="overflow: auto;">
+                            <form onsubmit="sendMail(); reset(); return false;" class="form-group-sm" action="/employee/apply-for-leave" method="post" id="form1"><% csrfToken %>
+                                <div class="form-group">
+                                    <label for="title">Title:</label>
+                                    <input type="text" class="form-control" id="title" name="title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reason">Reason for Leave:</label>
+                                    <textarea class="form-control" style="resize: none" id="reason" name="reason"
+                                        rows="3" cols="60"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="time">Time:</label>
+                                    <input type="time" class="form-control" id="timePicker" name="time">
+                                </div>
+                                <!-- <div class="form-group">
+                                    <div class="leave-btn">
+                                        <button type="button" class="btn btn-primary">Add Leave +</button>
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <div class="sradio">
+                                        <p style="font-size: 14px; font-weight: 700;">Type:</p>
+                                        <div class="form-group">
+                                            <input type="radio" id="html" name="type" value="short">
+                                            <label for="html">Short Leave</label><br>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="radio" id="css" name="type" value="half">
+                                            <label for="css">Half Day</label><br>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="radio" id="javascript" name="type" value="full">
+                                            <label for="javascript">Full Day</label><br>
+                                        </div>
+                                    </div>
+                                </div>  -->
+                                <!-- <div class="form-group">
+                                    <div class="short">
+                                        <p id="demo1" style="font-size: 14px; font-weight: 700;">Short Leave:<br>
+                                            <label for="start_date" style="margin: 10px 0;">Date:</label>
+                                            <input type="date" style="margin: 10px 0;" class="form-control" id="start_date"  name="start_date">
+                                            <label for="endDate" style="margin-top: 10px;">Time:</label>
+                                            <input type="time" style="margin-top: 10px;" class="form-control" id="time" name="time">
+                                        </p>
+                                        <p id="demo2" style="font-size: 14px; font-weight: 700;" style="margin-top: 10px;">Half day:<br>
+                                            <label for="start_date" style="margin-top: 10px;">Date:</label>
+                                            <input type="date" style="margin-top: 10px;" class="form-control" id="start_date" name="start_date">
+        
+                                            <label for="endDate" style="margin-top: 10px !important;">Time:</label>
+                                            <input type="time" style="margin-top: 10px;" class="form-control" id="endDate">
+                                        </p>
+                                        <p id="demo3" style="font-size: 14px; font-weight: 700;">Full day:<br>
+                                            <label for="start_date" style="margin-top: 10px;">Date:</label>
+                                            <input type="date" style="margin-top: 10px;" class="form-control" id="start_date" name=" ">
+                                        </p>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="type">Type:</label>
+                                    <input type="text" class="form-control" id="type" name="type">
+                                </div>
+                                <div class="form-group">
+                                    <label for="period">Period of Leave:</label>
+                                    <input type="number" pattern="^[0-9]" title="Only Number" min="1" step="1"
+                                        class="form-control" required="required" id="period" name="period">
+                                </div>
+                                <div class="form-group">
+                                    <label for="start_date">Start Date:</label>
+                                    <input type="date" class="form-control" id="start_date" name="start_date">
+                                    <label id="error" style="color:red;"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="end_date">End Date:</label>
+                                    <input type="date" class="form-control" id="end_date" name="end_date">
+                                </div>̥
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button type="submit" data-toggle="modal" value="Submit" data-target="#myModal1"
+                                    class="btn btn-info">
+                                    Apply
+                                </button>
+                                <button type="submit" onclick="history.go(-1);" class="btn btn-default" value="Submit"
+                                    style="background-color: #092831; color: #fff; outline: none;">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="javascript" src="/static/mail.js"></script>
+    <script type="javascript" src="/static/seed/user-seeder.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#form1').on('submit', function () {
+                var startDate = new Date($('#start_date').val());
+                var endDate = new Date($('#end_date').val());
+                if (startDate > endDate) {
+                    $('#error').text("    Start Date must be smaller than End Date!")
+                    return false;
+                }
+                return true;
+            });
+            $('#period').bind('keypress', function (e) {
+                if (e.which < 48 ||
+                    (e.which > 57 && e.which < 65) ||
+                    (e.which > 90 && e.which < 97) ||
+                    e.which > 122) {
+                    e.preventDefault();
+                }
+
+            });
+        });
+    </script>
+
+<!-- <script>
+    var validator;
+    $(document).ready(function () {
+        $("button").click(function () {
+            $('.sradio').show();
+        });
+        $('input:radio[name=type]').change(function () {
+            if (this.value == 'short') {
+                $('.short #demo1').show();
+            } else {
+                $('.short #demo1').hide();
+            }
+            if (this.value == 'half') {
+                $('.short #demo2').show();
+            } else {
+                $('.short #demo2').hide();
+            }
+            if (this.value == 'full') {
+                $('.short #demo3').show();
+            } else {
+                $('.short #demo3').hide();
+            }
+        });
+        
+    });
+</script> -->
+
+
+    <!-- <script>
+        function sendMail() {
+            Email.send({
+                Host: "smtp.elasticemail.com",
+                port: "2525",
+                Username: "akhilrana7874@gmail.com",
+                Password: "05FC7B89E5F0B2D241446B91C73852B05CF4",
+                To: "akhilwebspace88@gmail.com",
+                From: "akhilrana7874@gmail.com",
+                Subject: "Leave Request",
+                Body: `Click on the link to approve/reject the request "http://localhost:3000/admin/leave-applications"`
+            }).then(
+                message => alert("Mail Sent Successfully")
+            );
+        }
+    </script> -->
+
+    <script src="/mailer.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="/javascripts/sidebar_menu.js"></script>
+
+</body>
+
+</html>
+
