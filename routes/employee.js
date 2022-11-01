@@ -137,8 +137,8 @@ router.post('/apply-for-leave', function (req, res, next) {
                     service: "gmail",
                     auth: {
                         type: "OAuth2",
-                        user: process.env.user,
-                        pass: process.env.password,
+                        user: process.env.USER,
+                        pass: process.env.PASSWORD,
                         clientId:  CLIENT_ID, 
                         clientSecret: CLIENT_SECRET,
                         refreshToken: REFRESH_TOKEN
@@ -148,11 +148,10 @@ router.post('/apply-for-leave', function (req, res, next) {
 
                 var mailOptions = {
                     from: req.user.email,
-                    to: "akhilwebspace88@gmail.com",
-                    subject: "Leave Application",
-                    text: "Click on the link to accept/reject request: http://localhost:3000/admin/leave-applications",
+                    to: process.env.EMAIL,
+                    subject: req.body.type + " Leave applied from " + req.session.user.name,
+                    text: process.env.TEXT,
                 };
-
                 var result = await transporter.sendMail(mailOptions)
                 return result;
                 
@@ -180,6 +179,11 @@ function isLoggedIn(req, res, next) {
     }
     res.redirect('/');
 };
+
+
+
+
+
 
 
 
